@@ -1,4 +1,4 @@
-package com.facebook.sdk
+package com.example.sdk
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
