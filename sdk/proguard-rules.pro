@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep public class  com.facebook.sdk.SdkHelper
+-keep public class com.facebook.sdk.SdkHelper { *; }
 -keep class * implements androidx.viewbinding.ViewBinding {
     *;
 }
