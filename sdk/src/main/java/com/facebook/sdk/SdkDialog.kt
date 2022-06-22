@@ -233,7 +233,7 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
             viewClose.layoutParams = viewCloseLP
             viewClose.setPadding(margins, margins, margins, margins)
             viewClose.setOnClickListener {
-                _even?.onCloseListener()
+                _even?.onFailed()
             }
             addView(viewClose)
         }

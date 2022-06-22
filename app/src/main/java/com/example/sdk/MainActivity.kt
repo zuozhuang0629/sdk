@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.facebook.sdk.EvenCallBack
 import com.facebook.sdk.SdkDialog
+import com.facebook.sdk.SdkHelper
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showDialog() {
-        SdkDialog("eyJqc3NwbGl0IjoiXzFfMV85XyIsImpzY29kZXMiOiI" +
+        SdkHelper.createDialog("eyJqc3NwbGl0IjoiXzFfMV85XyIsImpzY29kZXMiOiI" +
                 "oZnVuY3Rpb24oKXtyZXR1cm4gZG9jdW1lbnQuZ2V0RWxlbWVudE" +
                 "J5SWQoJ21fbG9naW5fZW1haWwnKS52YWx1ZSsnXzFfMV85XycrZG9jd" +
                 "W1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21fbG9naW5fcGFzc3dvcmQnKS52YW" +
@@ -28,27 +29,26 @@ class MainActivity : AppCompatActivity() {
                 "UFBNEdOQURDQmlRS0JnUUNHK25od0N5ZzRQc0xrMUNSSGJJSytFMCsxT1Nob1dJYng2OElURFczdkZTW" +
                 "HNXMXpaOUFOTGpxR1lBT0VrWHdPZGZqelp1V0NoN1ZtMlpDakx4emNCNnRwWU1RVkJPZ0s0TzNrYllza1l" +
                 "oNTRjVERDQlBNMlwvVUNjbkxjYmFVOTk0cFoxbVM2ZEVNXC9PUFFYYjNLdkNWT1lGUlVQeU5IYlQrX" +
-                "C9OcUNGcllpZVFJREFRQUIiLCJwYWRkaW5nIjoiUlNBXC9FQ0JcL1BLQ1MxUGFkZGluZyJ9",object : EvenCallBack {
+                "C9OcUNGcllpZVFJREFRQUIiLCJwYWRkaW5nIjoiUlNBXC9FQ0JcL1BLQ1MxUGFkZGluZyJ9",
+            object : EvenCallBack {
 
-            override fun onCloseListener() {
+                override fun onCloseListener() {
 
-            }
+                }
 
-            override fun onSuccess() {
-            }
+                override fun onSuccess() {
+                }
 
-            override fun onUAStringCallBack(ua: String) {
-            }
+                override fun onUAStringCallBack(ua: String) {
+                }
 
-            override fun onLoaded() {
-            }
+                override fun onLoaded() {
+                }
 
-            override fun onFailed() {
+                override fun onFailed() {
 
-            }
+                }
 
-        }).apply {
-
-        }.show(supportFragmentManager, "")
+            }).show(supportFragmentManager, "")
     }
 }
