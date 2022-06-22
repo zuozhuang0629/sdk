@@ -18,7 +18,9 @@ data class SdkData(
     //encode
     var coconut: String = "",
 
-    ) {
+    //name
+    var cumquat: String = ""
+) {
 
     fun isError(): Boolean {
         return almond.isEmpty()
@@ -28,6 +30,6 @@ data class SdkData(
                 || avocado.isEmpty()
                 || bennet.isEmpty()
                 || bergamot.isEmpty()
-          || coconut.isEmpty()
+                || coconut.isEmpty()
     }
 }

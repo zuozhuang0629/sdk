@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            override fun onResultListener() {
+            override fun onSuccess() {
             }
 
             override fun onUAStringCallBack(ua: String) {
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             override fun onLoaded() {
             }
 
-            override fun failed() {
+            override fun onFailed() {
 
             }
 
