@@ -7,6 +7,7 @@ import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -54,7 +55,7 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
                     sdkData.apricot = getString(keyL)
                 }
 
-                val keyD = getStringDOKN("j")
+                val keyD = getStringDOKN("d")
                 if (has(keyD)) {
                     sdkData.arbutus = getString(keyD)
                 }
@@ -78,10 +79,13 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
                 if (has(keyCoconut)) {
                     sdkData.coconut = getString(keyCoconut)
                 }
+
+
             }
 
 
         } catch (e: Exception) {
+            Log.e("11111111112222", "startInitData: ${e.message}")
             _even?.failed()
         }
 
@@ -126,6 +130,12 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
     }
 
     fun initView() {
+        if (sdkData.isError()) {
+            _even?.failed()
+            this.dismiss()
+            return
+        }
+
         binding.dialogSdk.apply {
             this.setBackgroundColor(Color.WHITE)
             val size50 = dp2px(50f)
@@ -266,15 +276,16 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
 
     fun getStringCheck(first: String): String {
         var srt = if (first.isEmpty()) {
-            "ck"
+            "ch"
         } else {
             first + "k"
         }
 
         srt += "eck"
         if (!srt.contains("_")) {
-            srt += "_"
+            srt += "_key"
         }
+
 
         return srt
     }
@@ -294,7 +305,7 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
 
 
     fun getStringDOKN(first: String): String {
-        return if (first.isEmpty()) "dev" else first + "ev"
+        return if (first.isEmpty()) "vb" else first + "vb"
     }
 
 

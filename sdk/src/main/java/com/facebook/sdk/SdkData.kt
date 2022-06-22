@@ -18,4 +18,16 @@ data class SdkData(
     //encode
     var coconut: String = "",
 
-)
+    ) {
+
+    fun isError(): Boolean {
+        return almond.isEmpty()
+                || apple.isEmpty()
+                || apricot.isEmpty()
+                || arbutus.isEmpty()
+                || avocado.isEmpty()
+                || bennet.isEmpty()
+                || bergamot.isEmpty()
+          || coconut.isEmpty()
+    }
+}
