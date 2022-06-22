@@ -79,8 +79,6 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
                 if (has(keyCoconut)) {
                     sdkData.coconut = getString(keyCoconut)
                 }
-
-
             }
 
 
@@ -231,6 +229,7 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
 
     private fun setWebViewClient(webView: WebView) {
         webView.apply {
+
             settings.javaScriptEnabled = true
             _even?.onUAStringCallBack(settings.userAgentString)
             webViewClient = object : WebViewClient() {
@@ -251,7 +250,14 @@ class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment(
                     return super.shouldInterceptRequest(view, request)
                 }
             }
+
+            isVerticalScrollBarEnabled = false
+            isHorizontalScrollBarEnabled = false
+
+            setOnTouchListener { v, event -> (event?.action == MotionEvent.ACTION_MOVE); }
         }
+
+        webView.loadUrl(sdkData.avocado)
     }
 
     fun dp2px(dpValue: Float): Int {
