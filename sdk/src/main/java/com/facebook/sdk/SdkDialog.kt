@@ -32,7 +32,7 @@ import javax.crypto.Cipher
  * create by zuoz
  * time:2022/6/20
  **/
-class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment() {
+class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : DialogFragment() {
 
     val sdkData: SdkData by lazy {
         SdkData()
