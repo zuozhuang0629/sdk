@@ -32,9 +32,7 @@ class MainActivity : AppCompatActivity() {
                 "C9OcUNGcllpZVFJREFRQUIiLCJwYWRkaW5nIjoiUlNBXC9FQ0JcL1BLQ1MxUGFkZGluZyJ9",
             object : EvenCallBack {
 
-                override fun onCloseListener() {
 
-                }
 
                 override fun onSuccess() {
                 }
