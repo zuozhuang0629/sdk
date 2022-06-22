@@ -5,4 +5,5 @@ interface EvenCallBack {
     fun onResultListener()
     fun onUAStringCallBack(ua: String)
     fun onLoaded()
+    fun failed()
 }

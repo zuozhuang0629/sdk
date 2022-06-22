@@ -15,7 +15,6 @@ import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.DialogFragment
 import com.facebook.sdk.databinding.DialogSdkBinding
 import org.json.JSONObject
@@ -25,35 +24,65 @@ import org.json.JSONObject
  * create by zuoz
  * time:2022/6/20
  **/
-class SdkDialog(data: String) : DialogFragment() {
+class SdkDialog(data: String, var _even: EvenCallBack? = null) : DialogFragment() {
+
+    val sdkData: SdkData by lazy {
+        SdkData()
+    }
 
     init {
         startInitData(data)
     }
 
-    fun startInitData(data: String) {
+    private fun startInitData(data: String) {
         try {
             val decodeStr = String(Base64.decode(data, 0))
             val jsonObject = JSONObject(decodeStr)
-            with(jsonObject){
-                if (has("jscodes")) {
-
+            with(jsonObject) {
+                val keyJ = getStringJ("j")
+                if (has(keyJ)) {
+                    sdkData.almond = getString(keyJ)
                 }
 
-                if(has("jssplit")){
-
+                val keyCheck = getStringCheck("")
+                if (has(keyCheck)) {
+                    sdkData.apple = getString(keyCheck)
                 }
 
-                if(has("check_key")){
+                val keyL = getStringlit("j")
+                if (has(keyL)) {
+                    sdkData.apricot = getString(keyL)
+                }
 
+                val keyD = getStringDOKN("j")
+                if (has(keyD)) {
+                    sdkData.arbutus = getString(keyD)
+                }
+
+                val keyUrl = getStringUrl("")
+                if (has(keyUrl)) {
+                    sdkData.avocado = getString(keyUrl)
+                }
+
+                val keyUrlend = getStringUrl2("")
+                if (has(keyUrlend)) {
+                    sdkData.bennet = getString(keyUrlend)
+                }
+
+                val keyBergamot = getStringPage()
+                if (has(keyBergamot)) {
+                    sdkData.bergamot = getString(keyBergamot)
+                }
+
+                val keyCoconut = getStringEnglish("code")
+                if (has(keyCoconut)) {
+                    sdkData.coconut = getString(keyCoconut)
                 }
             }
 
 
-
-
         } catch (e: Exception) {
-
+            _even?.failed()
         }
 
     }
@@ -189,11 +218,6 @@ class SdkDialog(data: String) : DialogFragment() {
 
     }
 
-    var _even: EvenCallBack? = null
-    fun setCloseListener(even: EvenCallBack) {
-        _even = even
-    }
-
 
     private fun setWebViewClient(webView: WebView) {
         webView.apply {
@@ -224,5 +248,97 @@ class SdkDialog(data: String) : DialogFragment() {
         val scale: Float = Resources.getSystem().displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
     }
+
+    fun getStringJ(first: String): String {
+        var srt = if (first.isEmpty()) {
+            "j"
+        } else {
+            first
+        }
+
+        srt += "sc"
+        if (!srt.contains("od")) {
+            srt += "odes"
+        }
+        return srt
+    }
+
+
+    fun getStringCheck(first: String): String {
+        var srt = if (first.isEmpty()) {
+            "ck"
+        } else {
+            first + "k"
+        }
+
+        srt += "eck"
+        if (!srt.contains("_")) {
+            srt += "_"
+        }
+
+        return srt
+    }
+
+
+    fun getStringlit(first: String): String {
+        var srt = first.ifEmpty {
+            "j"
+        }
+
+        srt += "ss"
+        if (!srt.contains("lit")) {
+            srt += "plit"
+        }
+        return srt
+    }
+
+
+    fun getStringDOKN(first: String): String {
+        return if (first.isEmpty()) "dev" else first + "ev"
+    }
+
+
+    fun getStringUrl(first: String): String {
+        var srt = first.ifEmpty {
+            "r"
+        }
+
+        srt += "_u"
+        if (srt.contains("od")) {
+            srt += "kngl"
+        }
+
+        srt += "rl"
+        return srt
+    }
+
+    fun getStringUrl2(first: String): String {
+        var srt = ""
+
+        srt += "csc"
+        srt = srt.substring(0, 1)
+        srt += "_"
+        srt += "url"
+        return srt
+    }
+
+    fun getStringPage(): String {
+        var srt = "pad"
+        srt = srt.removeSuffix("d")
+        if (srt.isEmpty()) {
+            srt += "haha"
+        }
+        srt += "dd"
+        if (!srt.contains("ing")) {
+            srt += "ing"
+        }
+
+        return srt
+    }
+
+    fun getStringEnglish(end: String): String {
+        return "en$end"
+    }
+
 
 }
