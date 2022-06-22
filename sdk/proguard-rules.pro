@@ -25,3 +25,4 @@
 -keep class * implements androidx.viewbinding.ViewBinding {
     *;
 }
+
