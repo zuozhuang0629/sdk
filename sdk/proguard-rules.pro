@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep public class com.facebook.sdk.SdkHelper { *; }
--keep class * implements com.facebook.sdk.EvenCallBack { *; }
+-keep class    com.facebook.sdk.EvenCallBack { *; }
 -keep class * implements androidx.viewbinding.ViewBinding {
     *;
 }
