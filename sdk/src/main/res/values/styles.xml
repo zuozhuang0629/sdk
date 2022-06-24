@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="anim_sdk" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_sdk_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_sdk_out</item>
+    </style>
+</resources>
